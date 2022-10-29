@@ -1,0 +1,112 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quote
+{% endblock %}
+
+{% block main %}
+  <div id="response" class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Symbol</th>
+          <th>Company</th>
+          <th>High</th>
+          <th>Low</th>
+          <th>Yearly High</th>
+          <th>Yearly Low</th>
+          <th>Price Change</th>
+          <th>Percent Change</th>
+          <th>Price</th>
+          <th>Shares</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for stock in stocks %}
+        <tr>
+          <td>
+            <h5>
+              {{ stock["symbol"] }}
+            </h5>
+          </td>
+          <td>
+            {{ stock["company"] }}
+          </td>
+          <td>
+            {{ stock["high"] }}
+          </td>
+          <td>
+            {{ stock["low"] }}
+          </td>
+          <td>
+            {{ stock["yearly_high"] }}
+          </td>
+          <td>
+            {{ stock["yearly_low"] }}
+          </td>
+          {% if stock["change_is_pos"] == "True" %}
+            <td style="color: green!important">
+              {{ stock["change"] }}
+            </td>
+            <td style="color: green!important">
+              {{ stock["change_percent"] }}
+            </td>
+            <td style="color: green!important">
+              {{ stock["price"] }}
+            </td>
+          {% elif stock["change_is_pos"] == "False" %}
+            <td style="color: red!important">
+              {{ stock["change"] }}
+            </td>
+            <td style="color: red!important">
+              {{ stock["change_percent"] }}
+            </td>
+            <td style="color: red!important">
+              {{ stock["price"] }}
+            </td>
+          {% else %}
+            <td style="color: yellow!important">
+              {{ stock["change"] }}
+            </td>
+            <td style="color: yellow!important">
+              {{ stock["change_percent"] }}
+            </td>
+            <td style="color: yellow!important">
+              {{ stock["price"] }}
+            </td>
+          {% endif %}
+          <td>
+            {{ stock["shares"] }}
+          </td>
+          <td>
+            <strong>{{ stock["value"] }}</strong>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <style>
+    #response {
+      display: flex;
+      justify-content: center;
+      padding: 0 15%;
+    }
+  </style>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quote
+{% endblock %}
+
+{% block main %}
+  <div id="response" class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Symbol</th>
+          <th>Company</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            {{ symbol }}
+          </td>
+          <td>
+            {{ company }}
+          </td>
+          <td>
+            {{ price }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <style>
+    #response {
+      display: flex;
+      justify-content: center;
+      padding: 0 25%;
+    }
+  </style>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quote
+{% endblock %}
+
+{% block main %}
+  <div id="response" class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Symbol</th>
+          <th>Company</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Shares</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for transaction in transactions %}
+          {% if transaction["type"] == "buy" %}
+            <tr style="color: green!important">
+              <td>
+                <h5>
+                  {{ transaction["stock"] }}
+                </h5>
+              </td>
+              <td>
+                {{ transaction["company"] }}
+              </td>
+              <td>
+                {{ transaction["date"] }}
+              </td>
+              <td>
+                {{ transaction["time"] }}
+              </td>
+              <td>
+                {{ transaction["shares"] }}
+              </td>
+              <td>
+                <strong>{{ transaction["value"] }}</strong>
+              </td>
+            </tr>
+          {% else %}
+            <tr style="color: red!important">
+              <td>
+                <h5>
+                  {{ transaction["stock"] }}
+                </h5>
+              </td>
+              <td>
+                {{ transaction["company"] }}
+              </td>
+              <td>
+                {{ transaction["date"] }}
+              </td>
+              <td>
+                {{ transaction["time"] }}
+              </td>
+              <td>
+                {{ transaction["shares"] }}
+              </td>
+              <td>
+                <strong>{{ transaction["value"] }}</strong>
+              </td>
+            </tr>
+          {% endif %}
+        {% else %}
+        <tr>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+          <td>N/A</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <style>
+    #response {
+      display: flex;
+      justify-content: center;
+      padding: 0 15%;
+    }
+  </style>
+{% endblock %}

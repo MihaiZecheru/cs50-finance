@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Buy
+{% endblock %}
+
+{% block main %}
+    <form action="/buy" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="symbol" name="symbol" placeholder="Symbol" type="text" oninput="this.value = this.value.toUpperCase()">
+        </div>
+        <div class="mb-3">
+          <input autocomplete="off" class="form-control mx-auto w-auto" id="shares" name="shares" placeholder="Shares" type="text">
+          <input id="navbar_size" name="navbar_size" type="text" style="display: none;">
+        </div>
+        <button class="btn btn-primary" type="submit">Buy Shares</button>
+    </form>
+    <script>
+      function isAlpha(c) {
+        return c.match(/[a-z]/i);
+      }
+
+      const symbol = document.getElementById("symbol");
+      const shares = document.getElementById("shares");
+      const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+
+      symbol.addEventListener("keydown", (e) => {
+        if (!isAlpha(e.key)) {
+          e.preventDefault();
+        } else {
+          if (e.key === "Escape") {
+            symbol.blur();
+          }
+
+          if (symbol.value.length >= 5 && !(e.ctrlKey || e.altKey || e.key === "Tab" || e.key === "Backspace" || e.key === "Enter" || e.key === "Home" || e.key === "End"
+          || e.key === "ArrowLeft" || e.key === "ArrowRight" || e.key === "ArrowUp" || e.key === "ArrowDown" || e.key === "Delete")) {
+            e.preventDefault();
+          }
+        }
+      });
+
+      shares.addEventListener("keydown", (e) => {
+        const isNum = numbers.includes(e.key);
+        console.log(e.key)
+        if ((!isNum || shares.value.length >= 5) && !(e.ctrlKey || e.altKey || e.key === "Tab" || e.key === "Backspace" || e.key === "Enter" || e.key === "Home" || e.key === "End"
+        || e.key === "ArrowLeft" || e.key === "ArrowRight" || e.key === "ArrowUp" || e.key === "ArrowDown" || e.key === "Delete")) {
+            e.preventDefault();
+        }
+      });
+
+      shares.addEventListener("input", (e) => {
+        if (shares.value.startsWith(0)) {
+          shares.value = shares.value.substring(1);
+          shares.setSelectionRange(0, 0);
+        }
+      });
+
+      document.getElementById("navbar_size").value = document.querySelector("nav").offsetHeight + "px";
+    </script>
+{% endblock %}

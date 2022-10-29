@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quote
+{% endblock %}
+
+{% block main %}
+    <form action="/quote" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="symbol" name="symbol" placeholder="Symbol" type="text" oninput="this.value = this.value.toUpperCase()">
+        </div>
+        <button class="btn btn-primary" type="submit">Get Quote</button>
+    </form>
+    <script>
+      function isAlpha(c) {
+        return c.match(/[a-z]/i);
+      }
+
+      document.querySelector("form").addEventListener("keydown", (e) => {
+        if (!isAlpha(e.key)) {
+          e.preventDefault();
+        } else {
+          if (e.key === "Escape") {
+            symbol.blur();
+          }
+
+          if (symbol.value.length >= 5 && !(e.ctrlKey || e.altKey || e.key === "Tab" || e.key === "Backspace" || e.key === "Enter" || e.key === "Home" || e.key === "End"
+          || e.key === "ArrowLeft" || e.key === "ArrowRight" || e.key === "ArrowUp" || e.key === "ArrowDown" || e.key === "Delete")) {
+            e.preventDefault();
+          }
+        }
+      });
+    </script>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Buy
+{% endblock %}
+
+{% block main %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <form action="/buy" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="symbol" name="symbol" placeholder="Symbol" type="text" oninput="this.value = this.value.toUpperCase()">
+        </div>
+        <div class="mb-3">
+          <input autocomplete="off" class="form-control mx-auto w-auto" id="shares" name="shares" placeholder="Shares" type="text">
+          <input id="navbar_size" name="navbar_size" type="text" style="display: none;">
+        </div>
+        <button class="btn btn-primary" type="submit">Buy Shares</button>
+    </form>
+    <script>
+      function isAlpha(c) {
+        return c.match(/[a-z]/i);
+      }
+
+      const symbol = document.getElementById("symbol");
+      const shares = document.getElementById("shares");
+      const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+
+      symbol.addEventListener("keydown", (e) => {
+        if (!isAlpha(e.key)) {
+          e.preventDefault();
+        } else {
+          if (e.key === "Escape") {
+            symbol.blur();
+          }
+
+          if (symbol.value.length >= 5 && !(e.ctrlKey || e.altKey || e.key === "Tab" || e.key === "Backspace" || e.key === "Enter" || e.key === "Home" || e.key === "End"
+          || e.key === "ArrowLeft" || e.key === "ArrowRight" || e.key === "ArrowUp" || e.key === "ArrowDown" || e.key === "Delete")) {
+            e.preventDefault();
+          }
+        }
+      });
+
+      shares.addEventListener("keydown", (e) => {
+        const isNum = numbers.includes(e.key);
+        console.log(e.key)
+        if ((!isNum || shares.value.length >= 5) && !(e.ctrlKey || e.altKey || e.key === "Tab" || e.key === "Backspace" || e.key === "Enter" || e.key === "Home" || e.key === "End"
+        || e.key === "ArrowLeft" || e.key === "ArrowRight" || e.key === "ArrowUp" || e.key === "ArrowDown" || e.key === "Delete")) {
+            e.preventDefault();
+        }
+      });
+
+      shares.addEventListener("input", (e) => {
+        if (shares.value.startsWith(0)) {
+          shares.value = shares.value.substring(1);
+          shares.setSelectionRange(0, 0);
+        }
+      });
+
+      document.getElementById("navbar_size").value = document.querySelector("nav").offsetHeight + "px";
+
+    </script>
+    <!-- Toast Container -->
+    <div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+      <div style="position: fixed; top: calc(.5rem + {{ NAVBAR_SIZE }})!important; right: .5rem">
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <img src="/static/favicon.ico" class="rounded mr-2" alt=":O">
+            <strong class="mr-auto">Finance</strong>
+            <div class="right">
+              <small class="text-muted">just now</small>
+              <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span class="material-symbols-outlined">close</span>
+              </button>
+            </div>
+          </div>
+          <div class="toast-body">
+            Bought <strong>{{ shares }}</strong> share(s) of <strong>{{ symbol }}</strong> at <strong>{{ price_individiual }}</strong> each for a total of <strong>{{ price }}</strong><br>
+            You now have <strong>{{ updated_stock_amount }}</strong> share(s) of this stock and <strong>{{ new_balance }}</strong> remaining
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      new bootstrap.Toast(document.querySelector(".toast"), { delay: 7500 }).show();
+    </script>
+    <style>
+        .toast-header > img {
+          width: 25px;
+          display: flex;
+          align-items: center;
+        }
+
+        .right  {
+          position: absolute;
+          right: .5em;
+          display: flex!important;
+          align-items: center;
+          justify-content: center;
+        }
+
+        button.close {
+          background: none;
+          border: none;
+          margin-bottom: -5px!important;
+        }
+    </style>
+{% endblock %}
